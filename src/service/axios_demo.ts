@@ -2,7 +2,6 @@ import axios from 'axios'
 
 export default function axiosDemo() {
   axios.defaults.baseURL = 'http:httpbin.prg'
-
   // function fn1(config: { url: string }) {
   //   // 请求发送成功会执行的函数
   //   // loading动画
