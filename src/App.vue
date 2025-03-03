@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ElButton } from 'element-plus'
+</script>
 
 <template>
   <header>
@@ -10,6 +12,7 @@
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
+      <el-button type="primary" @click="$store.commit('increment')">increment</el-button>
     </div>
   </header>
 
