@@ -21,4 +21,8 @@ globalRegister(app)
 // 全局引用element-plus 不在乎打包体积
 // app.use(ElementPlus)
 axiosDemo()
+const publicPath = import.meta.env.VITE_PUBLIC_PATH || './'
+console.log('=====================================')
+console.log(publicPath)
+console.log('=====================================')
 app.mount('#app')
