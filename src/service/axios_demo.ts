@@ -41,9 +41,9 @@ export default function axiosDemo() {
       }
     })
     .then((data) => {
-      console.log('=====================================')
-      console.log(data)
-      console.log('=====================================')
+      // console.log('=====================================')
+      // console.log(data)
+      // console.log('=====================================')
     })
   console.log('axiosDemo')
 }

@@ -33,29 +33,29 @@ export default class HRequest {
           })
         }
 
-        console.log('所有实例都有的拦截器: 请求成功拦截')
+        // console.log('所有实例都有的拦截器: 请求成功拦截')
         return config
       },
       (err) => {
-        console.log('所有实例都有的拦截器: 请求失败拦截')
+        // console.log('所有实例都有的拦截器: 请求失败拦截')
         return err
       }
     )
 
     this.instance.interceptors.response.use(
       (res) => {
-        setTimeout(() => {
-          this.loading?.close()
-        }, 1000)
-        console.log('所有实例都有的拦截器: 响应成功拦截')
+        this.loading?.close()
+
+        // console.log('所有实例都有的拦截器: 响应成功拦截')
         const { returnCode } = res?.data
         if (returnCode === '-1001') {
-          console.log('-1001请求失败')
+          // console.log('-1001请求失败')
         } else {
           return res?.data
         }
       },
       (err) => {
+        this.loading?.close()
         switch (err.response.status) {
           case 401:
             console.log('401请求失败')
@@ -69,10 +69,7 @@ export default class HRequest {
           default:
             break
         }
-        setTimeout(() => {
-          this.loading?.close()
-        }, 1000)
-        console.log('所有实例都有的拦截器: 响应失败拦截')
+        // console.log('所有实例都有的拦截器: 响应失败拦截')
         return err
       }
     )
@@ -93,7 +90,7 @@ export default class HRequest {
             res = config.interceptors.responseInterceptors(res)
           }
           this.showLoading = true
-          console.log(res)
+          // console.log(res)
           resolve(res)
         })
         .catch((err) => {

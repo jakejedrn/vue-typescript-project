@@ -3,7 +3,9 @@ import { createPinia } from 'pinia'
 import store from './vuexstore/index'
 // 全局引用element-plus 不在乎打包体积
 // import ElementPlus from 'element-plus'
+
 import 'element-plus/dist/index.css'
+
 import globalRegister from './global/index'
 import hRequest from './service/index'
 import 'normalize.css'
@@ -64,17 +66,17 @@ interface DataType {
 //     console.log(res, '111111111')
 //   })
 
-hRequest
-  .get<DataType>({
-    url: '/home/multidata',
-    headers: {},
-    showLoading: false
-  })
-  .then((res) => {
-    console.log(res, '2222222222')
-  })
-  .catch((err) => {
-    console.log(err, '3333333333')
-  })
+// hRequest
+//   .get<DataType>({
+//     url: '/home/multidata',
+//     headers: {},
+//     showLoading: false
+//   })
+//   .then((res) => {
+//     // console.log(res, '2222222222')
+//   })
+//   .catch((err) => {
+//     // console.log(err, '3333333333')
+//   })
 
 app.mount('#app')

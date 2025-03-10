@@ -7,7 +7,7 @@ const hRequest = new HRequest({
   showLoading: true,
   interceptors: {
     requestInterceptors: (config) => {
-      console.log('请求成功的拦截')
+      // console.log('请求成功的拦截')
       const token = ''
       config.headers.Authorization = `Bearer ${token}`
       return config
@@ -16,7 +16,7 @@ const hRequest = new HRequest({
     //   return err
     // },
     responseInterceptors: (res) => {
-      console.log('响应成功的拦截')
+      // console.log('响应成功的拦截')
       return res
     }
     // responseInterceptorsCatch: (err) => {

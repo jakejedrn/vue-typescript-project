@@ -1,9 +1,12 @@
-<template>
-  <div class="login">Login</div>
-  <button></button>
-</template>
+<script lang="ts" setup>
+import LoginPanel from '../components/LoginPanel.vue'
+</script>
 
-<script lang="ts" setup></script>
+<template>
+  <div class="login">
+    <loginPanel />
+  </div>
+</template>
 
 <style scoped lang="less">
 .login {
