@@ -7,12 +7,14 @@ import store from './vuexstore/index'
 import 'element-plus/dist/index.css'
 
 import globalRegister from './global/index'
-import hRequest from './service/index'
+// import hRequest from './service/index'
 import 'normalize.css'
 import './assets/style/index.less'
 
 import App from './App.vue'
 import router from './router'
+
+import { setupStore } from './vuexstore'
 
 const app = createApp(App)
 
@@ -20,6 +22,8 @@ app.use(createPinia())
 app.use(store)
 app.use(router)
 globalRegister(app)
+
+setupStore()
 // 全局引用element-plus 不在乎打包体积
 // app.use(ElementPlus)
 // axiosDemo()
@@ -31,11 +35,11 @@ globalRegister(app)
 //   headers: {}
 // })
 
-interface DataType {
-  data: any
-  returnCode: string
-  success: boolean
-}
+// interface DataType {
+//   data: any
+//   returnCode: string
+//   success: boolean
+// }
 
 // hRequest
 //   .request<DataType>({

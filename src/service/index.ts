@@ -1,5 +1,6 @@
 import { BASE_URL, TIME_OUT } from './request/config'
 import HRequest from './request'
+import localCache from '@/utils/cache'
 
 const hRequest = new HRequest({
   baseURL: BASE_URL,
@@ -8,7 +9,7 @@ const hRequest = new HRequest({
   interceptors: {
     requestInterceptors: (config) => {
       // console.log('请求成功的拦截')
-      const token = ''
+      const token = localCache.getCache('token') || ''
       config.headers.Authorization = `Bearer ${token}`
       return config
     },

@@ -6,19 +6,19 @@ import localCache from '@/utils/cache'
 import { useStore } from 'vuex'
 
 interface RuleForm {
-  account: string
+  name: string
   password: string
 }
 
 const store = useStore()
 const ruleFormRef = ref<FormInstance>()
 const form = reactive<RuleForm>({
-  account: localCache.getCache('userName') ?? '',
+  name: localCache.getCache('userName') ?? '',
   password: localCache.getCache('userPassWord') ?? ''
 })
 
 const rules = reactive<FormRules>({
-  account: [
+  name: [
     { required: true, message: '请输入账号', trigger: 'blur' },
     {
       pattern: /^[a-zA-Z0-9_]{3,16}$/,
@@ -29,9 +29,9 @@ const rules = reactive<FormRules>({
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     {
-      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-      message: '至少8个字符，包含至少一个大写字母、一个小写字母和一个数字',
-      trigger: 'blur'
+      // pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+      // message: '至少8个字符，包含至少一个大写字母、一个小写字母和一个数字',
+      // trigger: 'blur'
     }
   ]
 })
@@ -41,7 +41,7 @@ const loginAction = (isKeepPassword: boolean) => {
     ruleFormRef.value.validate((valid) => {
       if (valid) {
         if (isKeepPassword) {
-          localCache.setCache('userName', form.account)
+          localCache.setCache('userName', form.name)
           localCache.setCache('userPassWord', form.password)
         } else {
           localCache.deleteCache('userName')
@@ -62,8 +62,8 @@ defineExpose({
 
 <template>
   <el-form ref="ruleFormRef" :rules="rules" :model="form">
-    <el-form-item label="账号" prop="account">
-      <el-input v-model="form.account" placeholder="请输入账号" />
+    <el-form-item label="账号" prop="name">
+      <el-input v-model="form.name" placeholder="请输入账号" />
     </el-form-item>
     <el-form-item label="密码" prop="password">
       <el-input v-model="form.password" type="password" placeholder="请输入密码" show-password />

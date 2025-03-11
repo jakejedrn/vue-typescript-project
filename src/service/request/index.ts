@@ -55,8 +55,7 @@ export default class HRequest {
         }
       },
       (err) => {
-        this.loading?.close()
-        switch (err.response.status) {
+        switch (err?.response?.status) {
           case 401:
             console.log('401请求失败')
             break
@@ -69,6 +68,7 @@ export default class HRequest {
           default:
             break
         }
+        this.loading?.close()
         // console.log('所有实例都有的拦截器: 响应失败拦截')
         return err
       }
