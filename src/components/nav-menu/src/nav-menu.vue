@@ -1,38 +1,57 @@
 <script lang="ts" setup>
 import { ElMenu, ElSubMenu, ElMenuItem, ElIcon } from 'element-plus'
-import '@element-plus/icons-vue'
-import { computed } from 'vue'
-import { useStore } from '@/vuexstore/index'
+import { Monitor, Setting, Goods, ChatLineRound } from '@element-plus/icons-vue'
+import { computed, defineProps } from 'vue'
+import { useStore } from '@/vuexstore'
+
+const props = defineProps({
+  collapse: {
+    type: Boolean,
+    default: false
+  }
+})
 
 const store = useStore()
 const userMenuList = computed(() => store.state.login.userMenus)
+
+function changeMenu(index: string) {
+  console.log('=====================================');
+  console.log(index);
+  console.log('=====================================');
+}
 </script>
 
 <template>
   <div class="nav-menu">
     <div class="logo">
       <img class="img" src="~@/assets/img/logo.svg" alt="" />
-      <span class="title">Vue3+TS</span>
+      <span class="title" v-if="!props.collapse">Vue3+TS</span>
     </div>
     <el-menu
-      default-active="2"
       class="el-menu-vertical"
       background-color="#0c2135"
       text-color="#b7bdc3"
       active-text-color="#0a60bd"
+      :default-active="'2'"
+      :collapse="props.collapse"
+      @select="changeMenu"
     >
-      <template v-for="item in userMenuList" :key="item.id">
+      <template v-for="(item, index) in userMenuList" :key="item.id">
         <template v-if="item.type === 1">
-          <el-sub-menu :index="item.id" :key="item.id">
+          <el-sub-menu :index="`${item.id}`" :key="item.id">
             <template #title>
-              <!-- <el-icon><component :is="item.icon" /></el-icon> -->
-              <i v-if="item.icon" :class="item.icon"></i>
+              <el-icon>
+                <template v-if="index === 0"><monitor /> </template>
+                <template v-else-if="index === 1"><setting /> </template>
+                <template v-else-if="index === 2"><goods /> </template>
+                <template v-else-if="index === 3"><chat-line-round /> </template>
+              </el-icon>
               <span>{{ item.name }}</span>
             </template>
             <!-- 二级菜单 -->
             <template v-for="subItem in item.children" :key="subItem.id">
-              <el-menu-item>
-                <el-icon><component :is="item.icon" /></el-icon>
+              <el-menu-item :index="`${subItem.id}`">
+                <el-icon><component :is="subItem.icon" /></el-icon>
                 <span>{{ subItem.name }}</span>
               </el-menu-item>
             </template>
@@ -41,7 +60,7 @@ const userMenuList = computed(() => store.state.login.userMenus)
         <!-- 一级菜单 -->
         <template v-else-if="item.type === 2">
           <template>
-            <el-menu-item>
+            <el-menu-item :index="`${item.id}`">
               <el-icon><component :is="item.icon" /></el-icon>
               <span>{{ item.name }}</span>
             </el-menu-item>
