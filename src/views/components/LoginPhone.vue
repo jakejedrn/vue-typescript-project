@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, reactive, defineExpose } from 'vue'
+import { ref, reactive } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
 
@@ -31,7 +31,7 @@ const rules = reactive<FormRules>({
   ]
 })
 
-const loginAction = (isKeepPassword: boolean) => {
+const loginAction = () => {
   if (ruleFormRef.value) {
     ruleFormRef.value.validate((valid) => {
       if (valid) {

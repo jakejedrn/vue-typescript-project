@@ -3,6 +3,7 @@ import { ElMenu, ElSubMenu, ElMenuItem, ElIcon } from 'element-plus'
 import { Monitor, Setting, Goods, ChatLineRound } from '@element-plus/icons-vue'
 import { computed, defineProps } from 'vue'
 import { useStore } from '@/vuexstore'
+// import { useRouter } from 'vue-router'
 
 const props = defineProps({
   collapse: {
@@ -14,10 +15,10 @@ const props = defineProps({
 const store = useStore()
 const userMenuList = computed(() => store.state.login.userMenus)
 
-function changeMenu(index: string) {
-  console.log('=====================================');
-  console.log(index);
-  console.log('=====================================');
+function handleMenuItemClick(item: any) {
+  console.log('=====================================')
+  console.log(item)
+  console.log('=====================================')
 }
 </script>
 
@@ -34,7 +35,6 @@ function changeMenu(index: string) {
       active-text-color="#0a60bd"
       :default-active="'2'"
       :collapse="props.collapse"
-      @select="changeMenu"
     >
       <template v-for="(item, index) in userMenuList" :key="item.id">
         <template v-if="item.type === 1">
@@ -50,7 +50,7 @@ function changeMenu(index: string) {
             </template>
             <!-- 二级菜单 -->
             <template v-for="subItem in item.children" :key="subItem.id">
-              <el-menu-item :index="`${subItem.id}`">
+              <el-menu-item :index="`${subItem.id}`" @click="handleMenuItemClick(subItem)">
                 <el-icon><component :is="subItem.icon" /></el-icon>
                 <span>{{ subItem.name }}</span>
               </el-menu-item>
@@ -60,7 +60,7 @@ function changeMenu(index: string) {
         <!-- 一级菜单 -->
         <template v-else-if="item.type === 2">
           <template>
-            <el-menu-item :index="`${item.id}`">
+            <el-menu-item :index="`${item.id}`" @click="handleMenuItemClick(item)">
               <el-icon><component :is="item.icon" /></el-icon>
               <span>{{ item.name }}</span>
             </el-menu-item>

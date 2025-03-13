@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, reactive, defineExpose } from 'vue'
+import { ref, reactive } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
 import localCache from '@/utils/cache'

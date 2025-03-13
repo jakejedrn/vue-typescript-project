@@ -17,6 +17,11 @@ const router = createRouter({
       path: '/main',
       name: 'mainPage',
       component: () => import('../views/MainPage/MainPage.vue')
+    },
+    {
+      path: '/:patchMatch(.*)*',
+      name: 'notFound',
+      component: () => import('../views/NotFound/NotFound.vue')
     }
   ]
 })
