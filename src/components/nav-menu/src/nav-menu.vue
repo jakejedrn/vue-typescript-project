@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ElMenu, ElSubMenu, ElMenuItem, ElIcon } from 'element-plus'
 import { Monitor, Setting, Goods, ChatLineRound } from '@element-plus/icons-vue'
-import { computed, defineProps } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from '@/vuexstore'
-// import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { pathMapToMenu } from '@/utils/map-menus'
 
 const props = defineProps({
   collapse: {
@@ -13,12 +14,15 @@ const props = defineProps({
 })
 
 const store = useStore()
+const router = useRouter()
+const route = useRoute()
 const userMenuList = computed(() => store.state.login.userMenus)
 
+const menu = pathMapToMenu(userMenuList.value, route.path)
+const defaultValue = ref(menu ? `${menu.id}` : '2')
+
 function handleMenuItemClick(item: any) {
-  console.log('=====================================')
-  console.log(item)
-  console.log('=====================================')
+  router.push({ path: item.url ?? '/not-found' })
 }
 </script>
 
@@ -33,7 +37,7 @@ function handleMenuItemClick(item: any) {
       background-color="#0c2135"
       text-color="#b7bdc3"
       active-text-color="#0a60bd"
-      :default-active="'2'"
+      :default-active="defaultValue"
       :collapse="props.collapse"
     >
       <template v-for="(item, index) in userMenuList" :key="item.id">

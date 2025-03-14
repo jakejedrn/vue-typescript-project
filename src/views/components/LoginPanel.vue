@@ -12,7 +12,7 @@ const phoneRef = ref<InstanceType<typeof LoginPhone>>()
 
 const handleLogin = () => {
   if (tabKey.value === 'phone') {
-    phoneRef?.value?.loginAction(isKeepPassword.value)
+    phoneRef?.value?.loginAction()
   } else {
     accountRef?.value?.loginAction(isKeepPassword.value)
   }

@@ -20,10 +20,10 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(store)
+setupStore()
 app.use(router)
 globalRegister(app)
 
-setupStore()
 // 全局引用element-plus 不在乎打包体积
 // app.use(ElementPlus)
 // axiosDemo()

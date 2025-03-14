@@ -21,7 +21,11 @@ function foldChange(isFold: boolean) {
         <el-header class="page-header">
           <nav-header @foldChange="foldChange" />
         </el-header>
-        <el-main class="page-content"> Main </el-main>
+        <el-main class="page-content">
+          <div class="page-info">
+            <router-view />
+          </div>
+        </el-main>
       </el-container>
     </el-container>
   </div>

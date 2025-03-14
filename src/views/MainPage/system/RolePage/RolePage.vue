@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div></div>
+  <div>Role</div>
 </template>
 
 <style lang="less"></style>
