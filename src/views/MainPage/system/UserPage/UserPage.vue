@@ -1,21 +1,20 @@
 <script lang="ts" setup>
-import BaseForm from '@/base-ui/form'
 import { formConfig } from './config/search.config'
-const { formItems, labelWidth, itemStyle, colLayout } = formConfig
+import PageSearch from '@/components/page-search'
 </script>
 
 <template>
   <div class="user">
     <div class="search">
-      <base-form
-        ref="baseForm"
-        :form-items="formItems"
-        :item-style="itemStyle"
-        :label-width="labelWidth"
-        :colLayout="colLayout"
-      ></base-form>
+      <page-search :formConfig="formConfig" />
     </div>
   </div>
 </template>
 
-<style lang="less"></style>
+<style lang="less">
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0px 20px 20px 0px;
+}
+</style>

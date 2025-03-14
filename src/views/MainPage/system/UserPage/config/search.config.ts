@@ -1,7 +1,7 @@
 import { type IFormItem, type IForm } from '@/base-ui/form'
 const itemStyle = { padding: '10px 40px' }
 
-const labelWidth = '120px'
+const labelWidth = '100px'
 
 const colLayout = {
   xl: 6,

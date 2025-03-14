@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type PropType } from 'vue'
+import { ref, defineEmits, watch, type PropType } from 'vue'
 import {
   ElForm,
   ElFormItem,
@@ -35,8 +35,25 @@ const props: IForm = defineProps({
       sm: 24,
       xs: 24
     })
+  },
+  modelValue: {
+    type: Object,
+    default: () => {},
+    required: true
   }
 })
+
+const emit = defineEmits(['update:modelValue'])
+
+const formData = ref({ ...props.modelValue })
+
+watch(
+  () => formData,
+  (newValue) => {
+    emit('update:modelValue', newValue)
+  },
+  { deep: true }
+)
 </script>
 
 <template>
@@ -55,17 +72,26 @@ const props: IForm = defineProps({
               :rules="item.rules"
             >
               <template v-if="item.type === 'input'">
-                <el-input v-bind="item.otherOptions" :placeholder="item.placeholder" />
+                <el-input
+                  v-model="formData[`${item.field}`]"
+                  v-bind="item.otherOptions"
+                  :placeholder="item.placeholder"
+                />
               </template>
               <template v-else-if="item.type === 'password'">
                 <el-input
+                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
                   type="password"
                 />
               </template>
               <template v-else-if="item.type === 'select'">
-                <el-select v-bind="item.otherOptions" :placeholder="item.placeholder">
+                <el-select
+                  v-model="formData[`${item.field}`]"
+                  v-bind="item.otherOptions"
+                  :placeholder="item.placeholder"
+                >
                   <el-option
                     v-for="option in item.options"
                     :key="option.value"
@@ -75,7 +101,12 @@ const props: IForm = defineProps({
                 </el-select>
               </template>
               <template v-else-if="item.type === 'datepicker'">
-                <el-date-picker v-bind="item.otherOptions" style="width: 100%" type="daterange" />
+                <el-date-picker
+                  v-model="formData[`${item.field}`]"
+                  v-bind="item.otherOptions"
+                  style="width: 100%"
+                  type="daterange"
+                />
               </template>
             </el-form-item>
           </el-col>
