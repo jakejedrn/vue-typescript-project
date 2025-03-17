@@ -1,5 +1,6 @@
 import hRequest from '../index'
-import type { IAccount, IDataType, ILoginReault } from './type'
+import type { IAccount, ILoginReault } from './type'
+import type { IDataType } from '@/service/types'
 
 enum LoginAPI {
   AccountLogin = '/login',

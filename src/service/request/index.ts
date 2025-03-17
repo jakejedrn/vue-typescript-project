@@ -75,7 +75,7 @@ export default class HRequest {
     )
   }
 
-  request<T>(config: HRequestConfig<T>): Promise<T> {
+  request<T = any>(config: HRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       if (!isUndefined(config.showLoading)) {
         this.showLoading = config.showLoading
@@ -101,23 +101,23 @@ export default class HRequest {
     })
   }
 
-  get<T>(config: HRequestConfig): Promise<T> {
+  get<T = any>(config: HRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
 
-  post<T>(config: HRequestConfig): Promise<T> {
+  post<T = any>(config: HRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
 
-  delete<T>(config: HRequestConfig): Promise<T> {
+  delete<T = any>(config: HRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
 
-  patch<T>(config: HRequestConfig): Promise<T> {
+  patch<T = any>(config: HRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 
-  put<T>(config: HRequestConfig): Promise<T> {
+  put<T = any>(config: HRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'PUT' })
   }
 }
