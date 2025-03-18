@@ -1,4 +1,6 @@
 import type { App } from 'vue'
+import registerProperties from './register-properties'
 
-/* eslint-disable */
-export default function globalRegister(app: App) {}
+export default function globalRegister(app: App) {
+  app.use(registerProperties)
+}

@@ -22,7 +22,7 @@ app.use(createPinia())
 app.use(store)
 setupStore()
 app.use(router)
-globalRegister(app)
+app.use(globalRegister)
 
 // 全局引用element-plus 不在乎打包体积
 // app.use(ElementPlus)

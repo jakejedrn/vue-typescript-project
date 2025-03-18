@@ -6,10 +6,8 @@ export interface IRootState {
 }
 
 export interface IRootWithModule {
-  login: ILoginState,
+  login: ILoginState
   system: ISystemState
 }
-
-
 
 export type IStoreType = IRootState & IRootWithModule
