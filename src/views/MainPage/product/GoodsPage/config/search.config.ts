@@ -15,31 +15,8 @@ const formItems: IFormItem[] = [
   {
     field: 'name',
     type: 'input',
-    label: '菜单名称',
-    placeholder: '请输入菜单名称'
-  },
-  {
-    field: '菜单url',
-    type: 'input',
-    label: '菜单url',
-    placeholder: '请输入菜单url'
-  },
-  {
-    field: '按钮权限',
-    type: 'input',
-    label: '按钮权限',
-    placeholder: '请输入按钮权限'
-  },
-  {
-    field: '类型',
-    type: 'select',
-    label: '类型',
-    placeholder: '请选择类型',
-    options: [
-      { label: '1级菜单', value: 1 },
-      { label: '2级菜单', value: 2 },
-      { label: '3级菜单', value: 3 }
-    ]
+    label: '商品名称',
+    placeholder: '请输入商品名称'
   },
   {
     field: 'createAt',

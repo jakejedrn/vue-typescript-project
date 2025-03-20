@@ -1,7 +1,15 @@
 <template>
   <div class="department">
-    <page-search :formConfig="formConfig" />
-    <page-content pageName="department" :contentTableConfig="contentTableConfig" />
+    <page-search
+      @handleReset="handleReset"
+      @handleSearchData="handleSearchData"
+      :formConfig="formConfig"
+    />
+    <page-content
+      ref="pageContentRef"
+      pageName="department"
+      :contentTableConfig="contentTableConfig"
+    />
   </div>
 </template>
 
@@ -11,6 +19,7 @@ import { contentTableConfig } from './config/content.config'
 import { formConfig } from './config/search.config'
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
+import { usePageSearch } from '@/hooks/usePageSearch'
 
 export default defineComponent({
   name: 'DepartmentPage',
@@ -19,9 +28,13 @@ export default defineComponent({
     PageContent
   },
   setup() {
+    const { pageContentRef, handleReset, handleSearchData } = usePageSearch()
     return {
       formConfig,
-      contentTableConfig
+      contentTableConfig,
+      pageContentRef,
+      handleReset,
+      handleSearchData
     }
   }
 })

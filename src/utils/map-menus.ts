@@ -1,5 +1,6 @@
 import type { IBreadcrumb } from '@/base-ui/breadcrumb/types'
 import type { RouteRecordRaw } from 'vue-router'
+import { isArray } from 'lodash-es'
 
 let firstMenu: any = null
 
@@ -22,7 +23,7 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
           firstMenu = menu
         }
       } else {
-        loopMenu(menu.children)
+        loopMenu(menu?.children)
       }
     })
   }
@@ -58,6 +59,22 @@ export function pathMapBreadcrumb(userMenus: any[], currentPath: string): IBread
   const breadcrumbs: IBreadcrumb[] = []
   pathMapToMenu(userMenus, currentPath, breadcrumbs)
   return breadcrumbs
+}
+
+export function mapMenusToPermissions(userMenus: any[]) {
+  const permissions: string[] = []
+  const loopMenu = (list: any[]) => {
+    for (const menu of list) {
+      if (menu.permission) {
+        permissions.push(menu.permission)
+      }
+      if (isArray(menu.children) && menu.children.length !== 0) {
+        loopMenu(menu.children)
+      }
+    }
+  }
+  loopMenu(userMenus)
+  return permissions
 }
 
 export { firstMenu }

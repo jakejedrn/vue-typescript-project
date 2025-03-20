@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import BaseTable from '@/base-ui/table'
 import { Edit, Delete, Plus, Refresh } from '@element-plus/icons-vue'
 import { ElButton } from 'element-plus'
 import { useStore } from '@/vuexstore'
+import { userPermissions } from '@/hooks/use-permission'
 
 const store = useStore()
 const props = defineProps({
@@ -14,7 +15,26 @@ const props = defineProps({
   pageName: {
     type: String,
     default: ''
+  },
+  dataCount: {
+    type: Number,
+    default: 0
   }
+})
+
+const baseSolts = ['status', 'createAt', 'updateAt', 'handler']
+
+const isCreate = computed(() => {
+  return userPermissions(props.pageName, 'create')
+})
+const isDelete = computed(() => {
+  return userPermissions(props.pageName, 'delete')
+})
+const isUpdate = computed(() => {
+  return userPermissions(props.pageName, 'update')
+})
+const isQuery = computed(() => {
+  return userPermissions(props.pageName, 'query')
 })
 
 onMounted(() => {
@@ -24,14 +44,54 @@ onMounted(() => {
   })
 })
 
+const pageInfo = ref({ currentPage: 1, pageSize: 10 })
 const dataList = computed(() => store.getters[`system/pageListData`](props.pageName))
 const dataCount = computed(() => store.getters[`system/pageListCount`](props.pageName))
+const queryInfoBase = ref({})
+
+watch(
+  () => pageInfo,
+  () => {
+    getPageData(queryInfoBase.value)
+  },
+  { deep: true }
+)
+
+const otherPropSolts = computed(() => {
+  return props.contentTableConfig?.propList?.filter(
+    (item: any) => !baseSolts.includes(item.slotName)
+  )
+})
 
 function onSelectChange(value: any) {
   console.log('=====================================')
   console.log(value)
   console.log('=====================================')
 }
+
+function getPageData(queryInfo?: object) {
+  if (!isQUery.value) return
+  queryInfoBase.value = queryInfo ? { ...queryInfo } : []
+  store.dispatch('system/getPageListAction', {
+    pageName: props.pageName,
+    queryInfo: {
+      offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
+      size: pageInfo.value.pageSize,
+      ...queryInfo
+    }
+  })
+}
+
+function onRefresh() {
+  pageInfo.value = {
+    currentPage: 1,
+    pageSize: 10
+  }
+}
+
+defineExpose({
+  getPageData
+})
 </script>
 
 <template>
@@ -41,11 +101,12 @@ function onSelectChange(value: any) {
       @selectionChange="onSelectChange"
       :dataList="dataList"
       v-bind="props.contentTableConfig"
+      v-model:page="pageInfo"
     >
       <template #headerHandler>
-        <el-button :icon="Plus" type="primary">新建用户</el-button>
-        <el-button :icon="Delete" type="danger">批量删除</el-button>
-        <el-button :icon="Refresh" type="primary">刷新</el-button>
+        <el-button v-if="isCreate" :icon="Plus" type="primary">新建用户</el-button>
+        <el-button v-if="isDelete" :icon="Delete" type="danger">批量删除</el-button>
+        <el-button v-if="isQuery" :icon="Refresh" type="primary" @click="onRefresh">刷新</el-button>
       </template>
 
       <template #status="scope">
@@ -61,11 +122,25 @@ function onSelectChange(value: any) {
       </template>
       <template #handler>
         <div class="handler-btns">
-          <el-button :icon="Edit" size="small" type="text" plain>编辑</el-button>
-          <el-button class="delete-btn" :icon="Delete" size="small" type="text" plain>
+          <el-button v-if="isUpdate" :icon="Edit" size="small" type="text" plain>编辑</el-button>
+          <el-button
+            v-if="isDelete"
+            class="delete-btn"
+            :icon="Delete"
+            size="small"
+            type="text"
+            plain
+          >
             删除
           </el-button>
         </div>
+      </template>
+      <template v-for="item in otherPropSolts" :key="item.prop" #[item.slotName]="scope">
+        <tmplate v-if="item.slotName">
+          <slot :name="item.slotName" :row="scope.row">
+            {{ scope.row[item.prop] }}
+          </slot>
+        </tmplate>
       </template>
     </base-table>
   </div>

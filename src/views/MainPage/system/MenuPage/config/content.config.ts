@@ -1,6 +1,6 @@
 const propList = [
-  { prop: 'name', label: '菜单名称', minWidth: '100', align: 'center' },
-  { prop: 'type', label: '类型', minWidth: '100', align: 'center' },
+  { prop: 'name', label: '菜单名称', minWidth: '150', align: 'center' },
+  { prop: 'type', label: '类型', minWidth: '100', align: 'center', slotName: 'menuType' },
   { prop: 'url', label: '菜单url', minWidth: '100', align: 'center' },
   { prop: 'icon', label: '菜单icon', minWidth: '100', align: 'center' },
   { prop: 'permission', label: '按钮权限', minWidth: '100', align: 'center' },
@@ -17,25 +17,26 @@ const propList = [
     minWidth: '220',
     slotName: 'updateAt',
     align: 'center'
-  },
-  {
-    label: '操作',
-    width: '150',
-    slotName: 'handler',
-    align: 'center',
-    fixed: 'right'
   }
 ]
 
-const title = '用户列表'
-const showIndexColumn = true
-const showSelectColumn = true
-const showFooter = true
+const title = '菜单列表'
+const showIndexColumn = false
+const showSelectColumn = false
+const showFooter = false
+
+const childrenProps = {
+  rowKey: 'id',
+  treeProp: {
+    children: 'children'
+  }
+}
 
 export const contentTableConfig = {
   title,
   propList,
   showIndexColumn,
   showSelectColumn,
-  showFooter
+  showFooter,
+  childrenProps
 }

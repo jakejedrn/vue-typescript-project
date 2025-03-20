@@ -28,7 +28,7 @@
     },
     "allowJs": true,
     "strict": false,
-    "types": ["vite/client"],
+    "types": ["vite/client", "vue"],
     "strictFunctionTypes": false,
     "noImplicitAny": false,
     "noUnusedLocals": true,

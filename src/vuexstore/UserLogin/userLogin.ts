@@ -9,7 +9,7 @@ import {
 import type { IAccount } from '@/service/UserLogin/type.ts'
 import localCache from '@/utils/cache'
 import router from '@/router'
-import { mapMenusToRoutes } from '@/utils/map-menus.ts'
+import { mapMenusToRoutes, mapMenusToPermissions } from '@/utils/map-menus.ts'
 
 const userLoginStore: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -17,7 +17,8 @@ const userLoginStore: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: {},
-      userMenus: []
+      userMenus: [],
+      permissions: []
     }
   },
   mutations: {
@@ -33,6 +34,8 @@ const userLoginStore: Module<ILoginState, IRootState> = {
       routes.forEach((route) => {
         router.addRoute('mainPage', route)
       })
+      const permissions = mapMenusToPermissions(userMenus)
+      state.permissions = permissions
     }
   },
   actions: {
@@ -52,7 +55,7 @@ const userLoginStore: Module<ILoginState, IRootState> = {
 
         const userMenuResult = await requestUserMenusByRoleId(id)
         const { data: userMenusList } = userMenuResult || {}
-        localCache.setCache('userMenus', userMenusList)
+        localCache.setCache('userMenus', userMenusList || [])
         commit('changeUserMenus', userMenusList)
 
         router.push('/main')

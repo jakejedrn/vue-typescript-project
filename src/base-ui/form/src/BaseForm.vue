@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, defineEmits, watch, type PropType } from 'vue'
+import { defineEmits, type PropType } from 'vue'
 import {
   ElForm,
   ElFormItem,
@@ -45,15 +45,9 @@ const props: IForm = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const formData = ref({ ...props.modelValue })
-
-watch(
-  () => formData,
-  (newValue) => {
-    emit('update:modelValue', newValue)
-  },
-  { deep: true }
-)
+function handleValueChange(value: any, field: string) {
+  emit('update:modelValue', { ...props.modelValue, [field]: value })
+}
 </script>
 
 <template>
@@ -73,24 +67,27 @@ watch(
             >
               <template v-if="item.type === 'input'">
                 <el-input
-                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 />
               </template>
               <template v-else-if="item.type === 'password'">
                 <el-input
-                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
                   type="password"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 />
               </template>
               <template v-else-if="item.type === 'select'">
                 <el-select
-                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 >
                   <el-option
                     v-for="option in item.options"
@@ -102,10 +99,11 @@ watch(
               </template>
               <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker
-                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                   style="width: 100%"
                   type="daterange"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 />
               </template>
             </el-form-item>

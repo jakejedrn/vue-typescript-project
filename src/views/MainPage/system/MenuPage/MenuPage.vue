@@ -1,7 +1,15 @@
 <template>
   <div class="menu">
-    <page-search :formConfig="formConfig" />
-    <page-content pageName="menu" :contentTableConfig="contentTableConfig" />
+    <page-search
+      @handleReset="handleReset"
+      @handleSearchData="handleSearchData"
+      :formConfig="formConfig"
+    />
+    <page-content ref="pageContentRef" pageName="menu" :contentTableConfig="contentTableConfig">
+      <template #menuType="scope">
+        <span>{{ `${scope.row.type}级菜单` }}</span>
+      </template>
+    </page-content>
   </div>
 </template>
 
@@ -11,6 +19,8 @@ import PageContent from '@/components/page-content'
 import PageSearch from '@/components/page-search'
 import { contentTableConfig } from './config/content.config'
 import { formConfig } from './config/search.config'
+import { usePageSearch } from '@/hooks/usePageSearch.ts'
+
 export default defineComponent({
   name: 'MenuPage',
   components: {
@@ -18,9 +28,13 @@ export default defineComponent({
     PageSearch
   },
   setup() {
+    const { pageContentRef, handleReset, handleSearchData } = usePageSearch()
     return {
       formConfig,
-      contentTableConfig
+      contentTableConfig,
+      pageContentRef,
+      handleReset,
+      handleSearchData
     }
   }
 })

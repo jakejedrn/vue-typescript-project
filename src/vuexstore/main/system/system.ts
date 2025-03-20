@@ -15,7 +15,9 @@ const systemModule: Module<ISystemState, IRootState> = {
       menuList: [],
       menuCount: 0,
       departmentList: [],
-      departmentCount: 0
+      departmentCount: 0,
+      categoryList: [],
+      categoryCount: 0
     }
   },
   mutations: {
@@ -48,6 +50,12 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     changeDepartmentCount(state, departmentCount: number) {
       state.departmentCount = departmentCount
+    },
+    changeCategoryList(state, categoryList: any[]) {
+      state.categoryList = categoryList
+    },
+    changeCategoryCount(state, categoryCount: number) {
+      state.categoryCount = categoryCount
     }
   },
   getters: {
@@ -70,7 +78,7 @@ const systemModule: Module<ISystemState, IRootState> = {
       const { list, totalCount } = pageResult.data || {}
       const changePageName = pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
       commit(`change${changePageName}List`, list)
-      commit(`change${changePageName}Count`, totalCount)
+      commit(`change${changePageName}Count`, totalCount || list.length)
     }
   }
 }
