@@ -8,8 +8,14 @@ import { usePageSearch } from '@/hooks/usePageSearch.ts'
 import { formConfig } from './config/search.config'
 import { ElImage } from 'element-plus'
 import { useStore } from '@/vuexstore'
+import PageModal from '@/components/page-modal'
+import { modalConfig } from './config/modal.config'
+import { usePageModal } from '@/hooks/use-page-modal'
+
 const store = useStore()
 const { pageContentRef, handleReset, handleSearchData } = usePageSearch()
+const { pageModalRef, defaultInfo, handleEditData, handleNewData, modalTitle } =
+  usePageModal('商品')
 
 onMounted(() => {
   store.dispatch('system/getPageListAction', {
@@ -29,9 +35,6 @@ const categoryListMap = computed(() => {
   }
   return map
 })
-console.log('=====================================')
-console.log(categoryListMap)
-console.log('=====================================')
 </script>
 
 <template>
@@ -41,7 +44,14 @@ console.log('=====================================')
       @handleSearchData="handleSearchData"
       :formConfig="formConfig"
     />
-    <PageContent ref="pageContentRef" pageName="goods" :contentTableConfig="contentTableConfig">
+    <PageContent
+      pageTitle="商品"
+      ref="pageContentRef"
+      pageName="goods"
+      :contentTableConfig="contentTableConfig"
+      @newDataClick="handleNewData"
+      @editDataClick="handleEditData"
+    >
       <template #image="scope">
         <el-image
           :z-index="9999"
@@ -60,6 +70,12 @@ console.log('=====================================')
         <span>{{ categoryListMap.get(scope.row.categoryId) || scope.row.categoryId }}</span>
       </template>
     </PageContent>
+    <PageModal
+      :title="modalTitle"
+      :defaultInfo="defaultInfo"
+      ref="pageModalRef"
+      :modalConfig="modalConfig"
+    />
   </div>
 </template>
 

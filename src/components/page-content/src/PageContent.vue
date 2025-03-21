@@ -2,7 +2,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import BaseTable from '@/base-ui/table'
 import { Edit, Delete, Plus, Refresh } from '@element-plus/icons-vue'
-import { ElButton } from 'element-plus'
+import { ElButton, ElPopconfirm } from 'element-plus'
 import { useStore } from '@/vuexstore'
 import { userPermissions } from '@/hooks/use-permission'
 
@@ -19,8 +19,14 @@ const props = defineProps({
   dataCount: {
     type: Number,
     default: 0
+  },
+  pageTitle: {
+    type: String,
+    default: '用户'
   }
 })
+
+const emits = defineEmits(['newDataClick', 'editDataClick'])
 
 const baseSolts = ['status', 'createAt', 'updateAt', 'handler']
 
@@ -70,7 +76,7 @@ function onSelectChange(value: any) {
 }
 
 function getPageData(queryInfo?: object) {
-  if (!isQUery.value) return
+  if (!isQuery.value) return
   queryInfoBase.value = queryInfo ? { ...queryInfo } : []
   store.dispatch('system/getPageListAction', {
     pageName: props.pageName,
@@ -82,11 +88,29 @@ function getPageData(queryInfo?: object) {
   })
 }
 
+function deletePageData(data: any) {
+  if (!isDelete.value) return
+  store.dispatch('system/deletePageDataAction', {
+    pageName: props.pageName,
+    id: data?.id
+  })
+}
+
 function onRefresh() {
   pageInfo.value = {
     currentPage: 1,
     pageSize: 10
   }
+}
+
+function addNewData() {
+  if (!isCreate.value) return
+  emits('newDataClick')
+}
+
+function editData(data: any) {
+  if (!isUpdate.value) return
+  emits('editDataClick', data)
 }
 
 defineExpose({
@@ -104,8 +128,12 @@ defineExpose({
       v-model:page="pageInfo"
     >
       <template #headerHandler>
-        <el-button v-if="isCreate" :icon="Plus" type="primary">新建用户</el-button>
-        <el-button v-if="isDelete" :icon="Delete" type="danger">批量删除</el-button>
+        <el-button @click="addNewData" v-if="isCreate" :icon="Plus" type="primary">
+          {{ `新建${props.pageTitle}` }}
+        </el-button>
+        <el-button @click="editData" v-if="isDelete" :icon="Delete" type="danger">
+          批量删除
+        </el-button>
         <el-button v-if="isQuery" :icon="Refresh" type="primary" @click="onRefresh">刷新</el-button>
       </template>
 
@@ -120,19 +148,28 @@ defineExpose({
       <template #updateAt="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handler-btns">
-          <el-button v-if="isUpdate" :icon="Edit" size="small" type="text" plain>编辑</el-button>
           <el-button
-            v-if="isDelete"
-            class="delete-btn"
-            :icon="Delete"
+            @click="() => editData(scope.row)"
+            v-if="isUpdate"
+            :icon="Edit"
             size="small"
             type="text"
             plain
+            >编辑</el-button
           >
-            删除
-          </el-button>
+          <el-popconfirm
+            v-if="isDelete"
+            @confirm="() => deletePageData(scope.row)"
+            title="确定删除选中数据？"
+          >
+            <template #reference>
+              <el-button class="delete-btn" :icon="Delete" size="small" type="text" plain>
+                删除
+              </el-button>
+            </template>
+          </el-popconfirm>
         </div>
       </template>
       <template v-for="item in otherPropSolts" :key="item.prop" #[item.slotName]="scope">

@@ -5,7 +5,12 @@
       @handleSearchData="handleSearchData"
       :formConfig="formConfig"
     />
-    <page-content ref="pageContentRef" pageName="menu" :contentTableConfig="contentTableConfig">
+    <page-content
+      pageTitle="菜单"
+      ref="pageContentRef"
+      pageName="menu"
+      :contentTableConfig="contentTableConfig"
+    >
       <template #menuType="scope">
         <span>{{ `${scope.row.type}级菜单` }}</span>
       </template>

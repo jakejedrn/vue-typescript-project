@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import { ElMessage } from 'element-plus'
 import { type Module } from 'vuex'
 import type { ISystemState } from './types'
 import type { IRootState } from '@/vuexstore/type'
-import { getPageListData } from '@/service/main/system/system'
+import { getPageListData, deletePageData } from '@/service/main/system/system'
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
   state() {
@@ -79,6 +81,20 @@ const systemModule: Module<ISystemState, IRootState> = {
       const changePageName = pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
       commit(`change${changePageName}List`, list)
       commit(`change${changePageName}Count`, totalCount || list.length)
+    },
+    async deletePageDataAction({ dispatch }, payload: any) {
+      const { pageName, id } = payload || {}
+      const pageUrl = `/${pageName}/${id}`
+      const pageResult = await deletePageData(pageUrl)
+      const { code, data } = pageResult || {}
+      code === 0 ? ElMessage.success(data) : ElMessage.error(data)
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
     }
   }
 }

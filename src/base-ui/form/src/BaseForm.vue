@@ -112,7 +112,7 @@ function handleValueChange(value: any, field: string) {
       </el-row>
     </el-form>
   </div>
-  <div class="footer">
+  <div class="footerForm">
     <slot name="footer"></slot>
   </div>
 </template>

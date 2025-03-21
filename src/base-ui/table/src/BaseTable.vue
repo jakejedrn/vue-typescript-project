@@ -34,7 +34,7 @@ const props = defineProps({
   },
   page: {
     type: Object,
-    default: () => ({ currentPage: 0, pageSize: 10 })
+    default: () => ({ currentPage: 1, pageSize: 10 })
   },
   childrenProps: {
     type: Object,
@@ -56,7 +56,7 @@ function handleCurrentChange(val: number) {
 </script>
 
 <template>
-  <div class="header">
+  <div class="header-class">
     <slot name="header">
       <div class="title">{{ props.title }}</div>
       <div class="handler">
@@ -88,7 +88,7 @@ function handleCurrentChange(val: number) {
       </el-table-column>
     </template>
   </el-table>
-  <div class="footer" v-if="props.showFooter">
+  <div class="footerClass" v-if="props.showFooter">
     <slot name="footer">
       <el-pagination
         @size-change="handleSizeChange"
@@ -103,7 +103,7 @@ function handleCurrentChange(val: number) {
 </template>
 
 <style lang="less">
-.header {
+.header-class {
   display: flex;
   height: 45px;
   padding: 0 5px;
@@ -120,7 +120,7 @@ function handleCurrentChange(val: number) {
   }
 }
 
-.footer {
+.footerClass {
   margin-top: 15px;
 
   .el-pagination {

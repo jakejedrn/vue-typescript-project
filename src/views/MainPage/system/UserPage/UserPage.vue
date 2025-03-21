@@ -4,12 +4,17 @@ import PageSearch from '@/components/page-search'
 import { contentTableConfig } from './config/content.config'
 import PageContent from '@/components/page-content'
 import { usePageSearch } from '@/hooks/usePageSearch'
+import PageModal from '@/components/page-modal'
+import { modalConfig } from './config/modal.config'
+import { usePageModal } from '@/hooks/use-page-modal'
+
+const { pageContentRef, handleReset, handleSearchData } = usePageSearch()
+const { pageModalRef, defaultInfo, handleEditData, handleNewData, modalTitle } =
+  usePageModal('用户')
 
 defineExpose({
   contentTableConfig
 })
-
-const { pageContentRef, handleReset, handleSearchData } = usePageSearch()
 </script>
 
 <template>
@@ -19,7 +24,20 @@ const { pageContentRef, handleReset, handleSearchData } = usePageSearch()
       @handleSearchData="handleSearchData"
       :formConfig="formConfig"
     />
-    <page-content ref="pageContentRef" pageName="users" :contentTableConfig="contentTableConfig" />
+    <page-content
+      @newDataClick="handleNewData"
+      @editDataClick="handleEditData"
+      ref="pageContentRef"
+      pageName="users"
+      :contentTableConfig="contentTableConfig"
+      pageTitle="用户"
+    />
+    <page-modal
+      :title="modalTitle"
+      :defaultInfo="defaultInfo"
+      ref="pageModalRef"
+      :modalConfig="modalConfig"
+    />
   </div>
 </template>
 
