@@ -3,7 +3,12 @@ import { ElMessage } from 'element-plus'
 import { type Module } from 'vuex'
 import type { ISystemState } from './types'
 import type { IRootState } from '@/vuexstore/type'
-import { getPageListData, deletePageData } from '@/service/main/system/system'
+import {
+  getPageListData,
+  deletePageData,
+  createPageData,
+  editPageData
+} from '@/service/main/system/system'
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
   state() {
@@ -95,6 +100,34 @@ const systemModule: Module<ISystemState, IRootState> = {
           size: 10
         }
       })
+    },
+    async createPageDataAction({ dispatch }, payload: any) {
+      const { pageName, newData } = payload || {}
+      const pageUrl = `/${pageName}`
+      const pageResult = await createPageData(pageUrl, newData)
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+      const { code, data } = pageResult || {}
+      code === 0 ? ElMessage.success(data) : ElMessage.error(data)
+    },
+    async editPageDataAction({ dispatch }, payload: any) {
+      const { pageName, editData, id } = payload || {}
+      const pageUrl = `/${pageName}/${id}`
+      const pageResult = await editPageData(pageUrl, editData)
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+      const { code, data } = pageResult || {}
+      code === 0 ? ElMessage.success(data) : ElMessage.error(data)
     }
   }
 }

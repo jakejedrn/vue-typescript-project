@@ -18,12 +18,12 @@ const { pageModalRef, defaultInfo, handleEditData, handleNewData, modalTitle } =
 
 <template>
   <page-search
-    pageTitle="角色"
     :formConfig="formConfig"
     @handleReset="handleReset"
     @handleSearchData="handleSearchData"
   />
   <page-content
+    pageTitle="角色"
     @newDataClick="handleNewData"
     @editDataClick="handleEditData"
     ref="pageContentRef"
@@ -34,6 +34,7 @@ const { pageModalRef, defaultInfo, handleEditData, handleNewData, modalTitle } =
     :title="modalTitle"
     :defaultInfo="defaultInfo"
     ref="pageModalRef"
+    pageName="role"
     :modalConfig="modalConfig"
   />
 </template>

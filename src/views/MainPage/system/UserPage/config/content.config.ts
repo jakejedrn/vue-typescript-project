@@ -2,6 +2,14 @@ const propList = [
   { prop: 'name', label: '用户名', minWidth: '100', align: 'center' },
   { prop: 'realname', label: '真实姓名', minWidth: '100', align: 'center' },
   { prop: 'cellphone', label: '手机号码', minWidth: '120', align: 'center' },
+  {
+    prop: 'departmentId',
+    label: '部门',
+    minWidth: '100',
+    align: 'center',
+    slotName: 'departmentId'
+  },
+  { prop: 'roleId', label: '角色', minWidth: '100', align: 'center', slotName: 'roleId' },
   { prop: 'enable', label: '状态', minWidth: '100', slotName: 'status', align: 'center' },
   { prop: 'createAt', label: '创建时间', minWidth: '250', slotName: 'createAt', align: 'center' },
   { prop: 'updateAt', label: '更新时间', minWidth: '250', slotName: 'updateAt', align: 'center' },

@@ -28,9 +28,10 @@ const formItems: IFormItem[] = [
   },
   {
     field: 'categoryId',
-    type: 'input',
+    type: 'select',
     label: '商品分类',
-    placeholder: '请输入商品分类'
+    placeholder: '请输入商品分类',
+    options: []
   },
   {
     field: 'imgUrl',

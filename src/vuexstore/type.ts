@@ -3,6 +3,9 @@ import type { ISystemState } from './main/system/types'
 
 export interface IRootState {
   count: number
+  entireDepartment: any[]
+  entireRole: any[]
+  entireCategory: any[]
 }
 
 export interface IRootWithModule {

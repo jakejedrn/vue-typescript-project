@@ -60,6 +60,7 @@ function handleValueChange(value: any, field: string) {
         <template v-for="item in props.formItems" :key="item.field">
           <el-col v-bind="props.colLayout">
             <el-form-item
+              v-if="!item.isHidden"
               :style="props.itemStyle"
               :label="item.label"
               :prop="item.field"

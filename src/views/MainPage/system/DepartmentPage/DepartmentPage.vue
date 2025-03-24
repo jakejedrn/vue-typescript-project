@@ -17,6 +17,7 @@
       :title="modalTitle"
       :defaultInfo="defaultInfo"
       ref="pageModalRef"
+      pageName="department"
       :modalConfig="modalConfig"
     />
   </div>

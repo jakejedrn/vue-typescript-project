@@ -17,6 +17,7 @@
     <page-modal
       :title="modalTitle"
       ref="pageModalRef"
+      pageName="category"
       :defaultInfo="defaultInfo"
       :modalConfig="modalConfig"
     />

@@ -26,15 +26,32 @@ onMounted(() => {
     }
   })
 })
+const modalConfigComputed = computed(() => {
+  const categoryItem = modalConfig.formItems.find((item) => item.field === 'categoryId')
+  categoryItem!.options = getOptions(store.state.entireCategory)
+  return modalConfig
+})
+
 const categoryListMap = computed(() => {
   const map = new Map()
-  if (isArray(store.state.system.categoryList)) {
-    store.state.system.categoryList.forEach((item: any) => {
+  if (isArray(store.state.entireCategory)) {
+    store.state.entireCategory.forEach((item: any) => {
       map.set(item.id, item.name)
     })
   }
   return map
 })
+
+function getOptions(list: any[]) {
+  const options: any[] = []
+  list.forEach((item) => {
+    options.push({
+      label: item.name,
+      value: item.id
+    })
+  })
+  return options
+}
 </script>
 
 <template>
@@ -74,7 +91,8 @@ const categoryListMap = computed(() => {
       :title="modalTitle"
       :defaultInfo="defaultInfo"
       ref="pageModalRef"
-      :modalConfig="modalConfig"
+      pageName="goods"
+      :modalConfig="modalConfigComputed"
     />
   </div>
 </template>
